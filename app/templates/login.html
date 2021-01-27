@@ -1,26 +1,27 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <title>TheMovies</title>
-</head>
-
-<body>
-    <h1>
-        The Movies
-    </h1>
-
-    <form action="/action_page.php" style="margin:auto;max-width:300px">
-        <h2>Login</h2>
-        <label for="email">E-mail:</label>
-        <input type="email" id="email" name="email"><br><br>
-
-        <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha"><br><br>
-
-        <input type="submit" value="Submit">
-    </form>
-</body>
-
-</html>
+{% block content %}
+<h2>Login</h2>
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+        <label>E-mail:</label>
+        {{ form.email( class="form-control") }}
+        {% if form.errors.email %}
+        <div class="alert alert-danger" role="alert">
+            {{ forms.errors.email}}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+    <div class="form-group">
+        <label>Senha:</label>
+        {{ form.senha( class="form-control") }}
+        {% if form.errors.senha %}
+        <div class="alert alert-danger" role="alert">
+            {{ forms.errors.senha}}
+        </div>
+        {% endif %}
+    </div>
+    <br>
+    <input type="submit" value="Entrar">
+</form>
+{% endblock %}
