@@ -1,31 +1,37 @@
 from app import app
+from flask import render_template
 
 
 @app.route("/")
 def index():
-    return "index"
+    return render_template("index.html")
 
 
 @app.route("/login")
 def logar():
-    return "Login"
+    return render_template("login.html")
 
 
 @app.route("/cadastro")
 def cadastrar():
-    return "Cadastro"
+    return render_template("cadastro.html")
 
 
 @app.route("/home")
 def home():
-    return "Home"
+    return render_template("home.html")
 
 
 @app.route("/perfis")
 def perfis():
-    return "perfis"
+    return render_template("perfis.html")
 
 
 @app.route("/perfil")
 def perfil():
-    return "perfil"
+    return render_template("perfil.html")
+
+
+# @app.route("/teste", methods=['GET])
+# def teste():
+#     return "teste"
