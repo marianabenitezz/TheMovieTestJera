@@ -1,7 +1,11 @@
 from flask import render_template
-from app import app
+from app import app, db
+
+from app.models.tables import Conta
 
 from app.models.forms import LoginForm
+from app.models.forms import CadastroForm
+
 
 @app.route("/")
 def index():
@@ -12,18 +16,28 @@ def index():
 def logar():
     form = LoginForm()
     if form.validate_on_submit():
-        print(form.email.data)
-        print(form.senha.data)
+        conta = Conta.query.filter_by(email=form.email.data).first()
+        if (conta.senha == form.senha.data):
+            return "Encontrou %r e senha %r" % (conta.email, conta.senha)
     else:
         print(form.errors)
 
-    return render_template("login.html",
-                            form=form)
+    return render_template("login.html", form=form)
 
 
-@app.route("/cadastro")
+@app.route("/cadastro", methods=["GET", "POST"])
 def cadastrar():
-    return render_template("cadastro.html")
+    form = CadastroForm()
+    if form.validate_on_submit():
+        conta = Conta(form.nome.data, form.email.data, form.dataNasc.data,
+                      form.senha.data)
+        db.session.add(conta)
+        db.session.commit()
+
+    else:
+        print(form.errors)
+
+    return render_template("cadastro.html", form=form)
 
 
 @app.route("/home")
@@ -39,8 +53,3 @@ def perfis():
 @app.route("/perfil")
 def perfil():
     return render_template("perfil.html")
-
-
-# @app.route("/teste", methods=['GET])
-# def teste():
-#     return "teste"

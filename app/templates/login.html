@@ -1,27 +1,38 @@
 {% block content %}
-<h2>Login</h2>
-<form action="" method="POST">
-    {{ form.csrf_token }}
-    <div class="form-group">
-        <label>E-mail:</label>
-        {{ form.email( class="form-control") }}
-        {% if form.errors.email %}
-        <div class="alert alert-danger" role="alert">
-            {{ forms.errors.email}}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>TheMovies</title>
+</head>
+
+<body>
+    <h1>The Movies</h1>
+    <form action="" method="POST" style="margin:auto;max-width:300px">
+        <h2>Login</h2>
+        {{ form.csrf_token }}
+        <div class="form-group">
+            <label>E-mail:</label>
+            {{ form.email( class="form-control") }}
+            {% if form.errors.email %}
+            <div class="alert alert-danger" role="alert">
+                {{ forms.errors.email}}
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
-    </div>
-    <br>
-    <div class="form-group">
-        <label>Senha:</label>
-        {{ form.senha( class="form-control") }}
-        {% if form.errors.senha %}
-        <div class="alert alert-danger" role="alert">
-            {{ forms.errors.senha}}
+        <br>
+        <div class="form-group">
+            <label>Senha:</label>
+            {{ form.senha( class="form-control") }}
+            {% if form.errors.senha %}
+            <div class="alert alert-danger" role="alert">
+                {{ forms.errors.senha}}
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
-    </div>
-    <br>
-    <input type="submit" value="Entrar">
-</form>
+        <br>
+        <input type="submit" value="Entrar">
+    </form>
+</body>
 {% endblock %}

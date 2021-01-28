@@ -1,3 +1,4 @@
+{% block content %}
 <html>
 
 <head>
@@ -6,11 +7,10 @@
 </head>
 
 <body>
-    <h1>
-        The Movies
-    </h1>
-    <button>Cadastrar</button>
-    <button>Entrar</button>
+    <h1>The Movies</h1>
+    <a href="{{url_for('logar')}}"><input type="submit" value="Entrar">
+        <a href="{{url_for('cadastrar')}}"><input type="submit" value="Cadastrar">
 </body>
 
 </html>
+{% endblock %}
