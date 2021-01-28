@@ -5,6 +5,7 @@
 <head>
     <meta charset="utf-8">
     <title>TheMovies</title>
+    <link href=base.html>
 </head>
 
 <body>
@@ -34,5 +35,14 @@
         <br>
         <input type="submit" value="Entrar">
     </form>
+    <div>
+        {% if current_user.is_autheticated %}
+        <li><a href="{{ url_for('deslogar')}}">
+                Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('logar')}}">
+                Login</a></li>
+        {% endif %}
+    </div>
 </body>
 {% endblock %}

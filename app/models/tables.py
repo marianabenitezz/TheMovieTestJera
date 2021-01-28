@@ -1,4 +1,4 @@
-from app import db
+from app import db, login_manager
 from datetime import datetime
 
 
@@ -10,6 +10,21 @@ class Conta(db.Model):
     # dataNasc = db.Column(db.DateTime, default=datetime.utcnow)
     dataNasc = db.Column(db.String)
     senha = db.Column(db.String)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.id)
 
     def __init__(self, nome, email, dataNasc, senha):
         self.nome = nome

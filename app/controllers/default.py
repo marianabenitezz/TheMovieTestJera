@@ -1,5 +1,6 @@
-from flask import render_template
-from app import app, db
+from flask import render_template, flash, redirect, url_for
+from flask_login import login_user, logout_user
+from app import app, db, login_manager
 
 from app.models.tables import Conta
 
@@ -7,6 +8,12 @@ from app.models.forms import LoginForm
 from app.models.forms import CadastroForm
 
 
+@login_manager.user_loader
+def load_user(id):
+    return Conta.query.filter_by(id=id).first()
+
+
+@app.route("/index")
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -17,12 +24,21 @@ def logar():
     form = LoginForm()
     if form.validate_on_submit():
         conta = Conta.query.filter_by(email=form.email.data).first()
-        if (conta.senha == form.senha.data):
-            return "Encontrou %r e senha %r" % (conta.email, conta.senha)
-    else:
-        print(form.errors)
+        if conta and conta.senha == form.senha.data:
+            login_user(conta)
+            return redirect(url_for("perfis"))
+            flash("Logado")
+        else:
+            flash("Login inválido")
 
     return render_template("login.html", form=form)
+
+
+@app.route("/logout")
+def deslogar():
+    logout_user()
+    flash("Deslogado")
+    return redirect(url_for("index"))
 
 
 @app.route("/cadastro", methods=["GET", "POST"])
