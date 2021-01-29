@@ -2,7 +2,7 @@ from app import db, login_manager
 from datetime import datetime
 
 
-class Conta(db.Model):
+class Conta(db.Model):  #conta de usuários
     __tablename__: "conta"
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String)
@@ -56,7 +56,8 @@ class Perfis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     contaId = db.Column(db.Integer)
     nome = db.Column(db.String)
-    filmes = db.Column(db.PickleType)
+    filmes = db.Column(
+        db.PickleType)  #filmes representam os filmes para assistir
 
     def __init__(self, contaId, nome, filmes):
         self.contaId = contaId

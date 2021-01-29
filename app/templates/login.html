@@ -11,6 +11,7 @@
 <body>
 
     <h1>The Movies</h1>
+    <a href="{{url_for('cadastrar')}}"><input type="submit" value="Cadastrar"></a>
     <form action="" method="POST" style="margin:auto;max-width:300px">
         <h2>Login</h2>
         {{ form.csrf_token }}

@@ -22,6 +22,6 @@ class BuscaForm(Form):
 
 
 class PerfilForm(Form):
-    nome = StringField('nome')
-    idUsuario = StringField('idUsuario')
+    nome = StringField('nome', validators=[DataRequired()])
+    contaId = StringField('contaId')
     filmes = StringField('filmes')

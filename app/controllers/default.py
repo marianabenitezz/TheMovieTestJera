@@ -30,42 +30,58 @@ def logar():
             return redirect(url_for("perfis"))
             flash("Logado")
         else:
-            flash("Login inválido")
+            flash("Login inválido. Cadastre-se ou tente novamente!")
 
     return render_template("login.html", form=form)
 
 
 @app.route("/perfis", methods=["GET", "POST"])
 def perfis():
-    form = PerfilForm()
-    todos = ''
-    if form.validate_on_submit():
-        novoPerfil = Perfis(current_user.id, form.nome.data, form.filmes.data)
-        # db.session.add(novoPerfil)
-        # db.session.commit()
-        # print("SUCESSO!", novoPerfil.nome)
-        # todos = Perfis.query.order_by(Perfis.nome).all()
+    if current_user.is_authenticated:
+        form = PerfilForm()
+        todos = listarPerfis(current_user.id)
+        if form.validate_on_submit():
+            if len(todos) >= 4:
+                flash("Limite máximo de perfis atingido!")
+                print("Atingiu o limite")
+
+            else:
+                novoPerfil = Perfis(current_user.id, form.nome.data,
+                                    form.filmes.data)
+                db.session.add(novoPerfil)
+                db.session.commit()
+                todos = listarPerfis(current_user.id)
+                print("SUCESSO!", novoPerfil.nome)
+        else:
+            print("Erro ao adicionar")
+
+        return render_template("perfis.html", form=form, todos=todos)
+
     else:
-        print("---------------ERRO AO ADD PERFIL---------------")
+        flash("Faça login para acessar seu perfil!")
+        return redirect(url_for("logar"))
 
-    return render_template("perfis.html", form=form, todos=todos)
 
-
-@app.route("/perfis", methods=["GET", "POST"])
-def listarPerfis():
-    todos = Perfis.query.order_by(Perfis.nome).all()
-    render_template("perfis.html", todos=todos)
+def listarPerfis(comparacao):
+    todos = []
+    for instancia in db.session.query(Perfis).filter_by(contaId=comparacao):
+        todos.append(instancia)
+    return todos
 
 
 @app.route("/perfil")
 def perfil():
-    form = BuscaForm()
-    filmes = []
-    if form.validate_on_submit():
-        filmes = api.buscarFilme(form.filme.data)
+    if current_user.is_authenticated:
+        form = BuscaForm()
+        filmes = []
+        if form.validate_on_submit():
+            filmes = api.buscarFilme(form.filme.data)
+        else:
+            print("Erro ao buscar")
+        return render_template("perfil.html", form=form, filmes=filmes)
     else:
-        print("------------------------ERRO------------------------")
-    return render_template("perfil.html", form=form, filmes=filmes)
+        flash("Faça login para acessar seu perfil!")
+        return redirect(url_for("logar"))
 
 
 @app.route("/logout")
@@ -79,12 +95,19 @@ def deslogar():
 def cadastrar():
     form = CadastroForm()
     if form.validate_on_submit():
-        conta = Conta(form.nome.data, form.email.data, form.dataNasc.data,
-                      form.senha.data)
-        db.session.add(conta)
-        db.session.commit()
+        e = Conta.query.filter_by(email=form.email.data).first()
+        if e:
+            flash("Já existe uma conta neste e-mail. Utilize outro!")
+        else:
+            conta = Conta(form.nome.data, form.email.data, form.dataNasc.data,
+                          form.senha.data)
+            db.session.add(conta)
+            db.session.commit()
+            flash("Cadastrado com sucesso!")
+            return redirect(url_for("logar"))
     else:
-        print("ERROOOO")
+        flash("Dados inválidos!")
+        print("Erro ao preencher dados")
 
     return render_template("cadastro.html", form=form)
 
