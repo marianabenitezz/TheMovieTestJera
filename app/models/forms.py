@@ -1,6 +1,8 @@
 from flask_wtf import Form
 from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired
+import requests
+import json
 
 
 class LoginForm(Form):
@@ -13,3 +15,7 @@ class CadastroForm(Form):
     email = StringField('email', validators=[DataRequired()])
     dataNasc = StringField('dataNasc', validators=[DataRequired()])
     senha = PasswordField('senha', validators=[DataRequired()])
+
+
+class BuscaForm(Form):
+    filme = StringField('filme')

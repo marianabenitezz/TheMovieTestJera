@@ -7,7 +7,6 @@ class Conta(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String)
     email = db.Column(db.String, unique=True)
-    # dataNasc = db.Column(db.DateTime, default=datetime.utcnow)
     dataNasc = db.Column(db.String)
     senha = db.Column(db.String)
 

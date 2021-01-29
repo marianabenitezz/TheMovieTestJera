@@ -2,10 +2,9 @@ from flask import render_template, flash, redirect, url_for
 from flask_login import login_user, logout_user
 from app import app, db, login_manager
 
-from app.models.tables import Conta
+from app.models.tables import Conta, Filme
 
-from app.models.forms import LoginForm
-from app.models.forms import CadastroForm
+from app.models.forms import LoginForm, CadastroForm, BuscaForm
 
 
 @login_manager.user_loader
@@ -49,9 +48,8 @@ def cadastrar():
                       form.senha.data)
         db.session.add(conta)
         db.session.commit()
-
     else:
-        print(form.errors)
+        print("ERROOOO")
 
     return render_template("cadastro.html", form=form)
 
@@ -69,3 +67,16 @@ def perfis():
 @app.route("/perfil")
 def perfil():
     return render_template("perfil.html")
+
+
+# @app.route("/")
+# def buscarFilme():
+#     form = BuscaForm()
+#     query = "https://api.themoviedb.org/3/search/movie?api_key=2340fc4617f733779a17fa1db329ea9c&language=en-US&page=1&query="
+#     if form.validate_on_submit():
+#         busca = Filme(form.filme.data)
+
+#     else:
+#         print("ERROOOO")
+
+#     return render_template("listaFilmes.html", form=form)

@@ -5,13 +5,20 @@
 </head>
 
 <body>
-    <h2>Perfil</h2>
+    <div>
+        {% if current_user.is_autheticated %}
+        <h2>{{ current_user.nome}}</h2>
+        <a href="{{ url_for('deslogar')}}">Logout</a>
 
-    <form class="example" action="/action_page.php">
-        <input type="text" placeholder="Buscar filme" name="search2">
-        <button type="submit">Buscar</button>
-    </form>
+        <form class="example" action="">
+            <input type="text" placeholder="Buscar filme" name="search2">
+            <button type="submit">Buscar</button>
+        </form>
 
+        {% else %}
+        <a href="{{ url_for('logar')}}">Login</a>
+        {% endif %}
+    </div>
 </body>
 
 </html>

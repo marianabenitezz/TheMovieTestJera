@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+
+    <div style="margin:auto;max-width:100%">
+        {% if current_user.is_authenticated %}
+        <h2>Bem vindo(a)! {{ current_user.nome }}</h2>
+        <a href="{{ url_for('deslogar')}}">Logout</a>
+
+        <br>
+        <div>
+            <h3>Informações:</h3>
+            <ul>
+                <li>Nome: {{ current_user.nome }}</li>
+                <li>Email: {{ current_user.email }}</li>
+                <li>Data de Nascimento: {{ current_user.dataNasc }}</li>
+                <li>Senha: {{ current_user.senha }}</li>
+            </ul>
+        </div>
+        <br>
+        <br>
+
+        {% else %}
+        <h2>Realize o login para acessar sua conta</h2>
+        <a href="{{ url_for('logar')}}">Login</a>
+        {% endif %}
+    </div>
+
+</body>
+
+</html>

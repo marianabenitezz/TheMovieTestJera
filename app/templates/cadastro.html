@@ -9,6 +9,7 @@
 
 <body>
     <h1>The Movies</h1>
+    <a href="{{url_for('logar')}}"><input type="submit" value="Entrar"></a>
     <form action="" method="POST" style="margin:auto;max-width:300px">
         <h2>Cadastrar</h2>
         {{ form.csrf_token }}
@@ -54,6 +55,7 @@
         <br>
         <input type="submit" value="Cadastrar">
     </form>
+
 </body>
 
 </html>
