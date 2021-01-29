@@ -1,4 +1,5 @@
-{% block content %}
+{% extends "base.html" %}
+{% block body %}
 <!DOCTYPE html>
 <html>
 
@@ -8,6 +9,7 @@
 </head>
 
 <body>
+
     <h1>The Movies</h1>
     <form action="" method="POST" style="margin:auto;max-width:300px">
         <h2>Login</h2>
@@ -17,7 +19,7 @@
             {{ form.email( class="form-control") }}
             {% if form.errors.email %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.email}}
+                {{ form.errors.email}}
             </div>
             {% endif %}
         </div>
@@ -27,7 +29,7 @@
             {{ form.senha( class="form-control") }}
             {% if form.errors.senha %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.senha}}
+                {{ form.errors.senha}}
             </div>
             {% endif %}
         </div>

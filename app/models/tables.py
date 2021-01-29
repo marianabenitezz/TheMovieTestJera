@@ -56,7 +56,7 @@ class Perfis(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     conta = db.Column(db.Integer, db.ForeignKey('conta.id'))
     nome = db.Column(db.String)
-    filmes = db.Column(db.PickleType, db.ForeignKey('filme.id'))
+    filmes = db.Column(db.String, db.ForeignKey('filme.id'))
 
     def __init__(self, conta, nome, filmes):
         self.conta = conta

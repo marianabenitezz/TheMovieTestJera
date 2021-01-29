@@ -1,3 +1,4 @@
+{% block body %}
 <!DOCTYPE html>
 <html>
 
@@ -24,6 +25,19 @@
         <br>
         <br>
 
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.filme( class="form-control") }}
+                {% if form.errors.filme %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.errors.filme}}
+                </div>
+                {% endif %}
+                <input type="submit" value="Buscar">
+            </div>
+        </form>
+
         {% else %}
         <h2>Realize o login para acessar sua conta</h2>
         <a href="{{ url_for('logar')}}">Login</a>
@@ -33,3 +47,4 @@
 </body>
 
 </html>
+{% endblock %}

@@ -3,8 +3,10 @@ from flask_login import login_user, logout_user
 from app import app, db, login_manager
 
 from app.models.tables import Conta, Filme
-
 from app.models.forms import LoginForm, CadastroForm, BuscaForm
+from app.controllers import api
+
+import sys
 
 
 @login_manager.user_loader
@@ -33,6 +35,18 @@ def logar():
     return render_template("login.html", form=form)
 
 
+@app.route("/perfis", methods=["GET", "POST"])
+def perfis():
+    form = BuscaForm()
+    if form.validate_on_submit():
+        filmes = api.buscarFilme(form.filme.data)
+        print(filmes[0]['release_date'])
+    else:
+        print("------------------------ERRO------------------------")
+
+    return render_template("perfis.html", form=form)
+
+
 @app.route("/logout")
 def deslogar():
     logout_user()
@@ -59,24 +73,6 @@ def home():
     return render_template("home.html")
 
 
-@app.route("/perfis")
-def perfis():
-    return render_template("perfis.html")
-
-
 @app.route("/perfil")
 def perfil():
     return render_template("perfil.html")
-
-
-# @app.route("/")
-# def buscarFilme():
-#     form = BuscaForm()
-#     query = "https://api.themoviedb.org/3/search/movie?api_key=2340fc4617f733779a17fa1db329ea9c&language=en-US&page=1&query="
-#     if form.validate_on_submit():
-#         busca = Filme(form.filme.data)
-
-#     else:
-#         print("ERROOOO")
-
-#     return render_template("listaFilmes.html", form=form)
