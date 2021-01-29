@@ -25,12 +25,16 @@ def buscarRecomendacao(id):
 
 
 def buscarFilme(palavra):
-    search_query = https + 'search/movie' + api_key + '&language=en-US&page=1&query='
-    aaa = search_query + palavra
-    req = requests.get(aaa).json()["results"]
     filmes = []
-    for i in range(len(req)):
-        filmes.append(req[i])
+    if palavra == '':
+        return filmes
+
+    else:
+        search_query = https + 'search/movie' + api_key + '&language=en-US&page=1&query='
+        f = search_query + palavra
+        req = requests.get(f).json()["results"]
+        for i in range(len(req)):
+            filmes.append(req[i])
 
     return filmes
 

@@ -13,7 +13,7 @@
         <a href="{{ url_for('deslogar')}}">Logout</a>
 
         <br>
-        <div>
+        <div style="margin:auto;max-width:100%">
             <h3>Informações:</h3>
             <ul>
                 <li>Nome: {{ current_user.nome }}</li>
@@ -24,19 +24,30 @@
         </div>
         <br>
         <br>
-
-        <form action="" method="POST">
-            {{ form.csrf_token }}
-            <div class="form-group">
-                {{ form.filme( class="form-control") }}
-                {% if form.errors.filme %}
-                <div class="alert alert-danger" role="alert">
-                    {{ form.errors.filme}}
+        <div>
+            <h3>Perfis:</h3>
+            <form action="" method="POST">
+                {{ form.csrf_token }}
+                <div class="form-group">
+                    <label>Nome do perfil:</label>
+                    {{ form.nome( class="form-control") }}
+                    {% if form.errors.nome %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ form.errors.nome}}
+                    </div>
                 </div>
-                {% endif %}
-                <input type="submit" value="Buscar">
-            </div>
-        </form>
+            </form>
+            <pre><code id="python_code">form.idUsuario = current_user.id</code></pre>
+        </div>
+        {% endif %}
+        <input type="submit" value="Adicionar">
+        {% if todos %}
+        <ul class="flashes">
+            {% for perfil in todos %}
+            <li>{{ perfil.nome }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
         {% else %}
         <h2>Realize o login para acessar sua conta</h2>

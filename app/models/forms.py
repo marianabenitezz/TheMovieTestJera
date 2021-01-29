@@ -19,3 +19,9 @@ class CadastroForm(Form):
 
 class BuscaForm(Form):
     filme = StringField('filme')
+
+
+class PerfilForm(Form):
+    nome = StringField('nome')
+    idUsuario = StringField('idUsuario')
+    filmes = StringField('filmes')

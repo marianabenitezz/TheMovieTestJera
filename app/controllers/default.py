@@ -1,9 +1,9 @@
 from flask import render_template, flash, redirect, url_for
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, current_user
 from app import app, db, login_manager
 
-from app.models.tables import Conta, Filme
-from app.models.forms import LoginForm, CadastroForm, BuscaForm
+from app.models.tables import Conta, Filme, Perfis
+from app.models.forms import LoginForm, CadastroForm, BuscaForm, PerfilForm
 from app.controllers import api
 
 import sys
@@ -37,14 +37,35 @@ def logar():
 
 @app.route("/perfis", methods=["GET", "POST"])
 def perfis():
+    form = PerfilForm()
+    todos = ''
+    if form.validate_on_submit():
+        novoPerfil = Perfis(current_user.id, form.nome.data, form.filmes.data)
+        # db.session.add(novoPerfil)
+        # db.session.commit()
+        # print("SUCESSO!", novoPerfil.nome)
+        # todos = Perfis.query.order_by(Perfis.nome).all()
+    else:
+        print("---------------ERRO AO ADD PERFIL---------------")
+
+    return render_template("perfis.html", form=form, todos=todos)
+
+
+@app.route("/perfis", methods=["GET", "POST"])
+def listarPerfis():
+    todos = Perfis.query.order_by(Perfis.nome).all()
+    render_template("perfis.html", todos=todos)
+
+
+@app.route("/perfil")
+def perfil():
     form = BuscaForm()
+    filmes = []
     if form.validate_on_submit():
         filmes = api.buscarFilme(form.filme.data)
-        print(filmes[0]['release_date'])
     else:
         print("------------------------ERRO------------------------")
-
-    return render_template("perfis.html", form=form)
+    return render_template("perfil.html", form=form, filmes=filmes)
 
 
 @app.route("/logout")
@@ -71,8 +92,3 @@ def cadastrar():
 @app.route("/home")
 def home():
     return render_template("home.html")
-
-
-@app.route("/perfil")
-def perfil():
-    return render_template("perfil.html")

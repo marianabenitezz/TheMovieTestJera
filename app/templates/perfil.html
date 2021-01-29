@@ -18,6 +18,26 @@
         {% else %}
         <a href="{{ url_for('logar')}}">Login</a>
         {% endif %}
+
+        <form action="" method="POST">
+            {{ form.csrf_token }}
+            <div class="form-group">
+                {{ form.filme( class="form-control") }}
+                {% if form.errors.filme %}
+                <div class="alert alert-danger" role="alert">
+                    {{ form.errors.filme}}
+                </div>
+                {% endif %}
+                <input type="submit" value="Buscar">
+            </div>
+        </form>
+        {% if filmes %}
+        <ul class="flashes">
+            {% for filme in filmes %}
+            <li>{{ filme['original_title'] }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </div>
 </body>
 

@@ -54,14 +54,15 @@ class Filme(db.Model):
 class Perfis(db.Model):
     __tablename__: "perfis"
     id = db.Column(db.Integer, primary_key=True)
-    conta = db.Column(db.Integer, db.ForeignKey('conta.id'))
+    contaId = db.Column(db.Integer)
     nome = db.Column(db.String)
-    filmes = db.Column(db.String, db.ForeignKey('filme.id'))
+    filmes = db.Column(db.PickleType)
 
-    def __init__(self, conta, nome, filmes):
-        self.conta = conta
+    def __init__(self, contaId, nome, filmes):
+        self.contaId = contaId
         self.nome = nome
         self.filmes = filmes
 
     def __repr__(self):
-        return "<perfis %r>" % self.filmes
+        return "<ContaID %r, Nome %r, Filmes %r>" % (self.contaId, self.nome,
+                                                     self.filmes)
