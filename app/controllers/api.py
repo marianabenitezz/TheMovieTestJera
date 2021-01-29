@@ -11,7 +11,7 @@ api_key = '?api_key=e11e8b1786788ea384c7accb4d9e5d92'
 # 'overview'
 # 'poster_path'
 # 'release_date'
-#  'vote_average'
+# 'vote_average'
 
 
 def buscarRecomendacao(id):
