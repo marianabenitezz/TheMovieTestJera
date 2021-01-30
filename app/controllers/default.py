@@ -83,9 +83,7 @@ def perfil(idPerfil, nomePerfil):
             filmes = api.buscarFilme(buscaFilmeForm.filme.data)
 
         if paraAssistir != []:
-            for i in paraAssistir:
-                sugestoes = api.buscarFilmeSimilar(str(
-                    paraAssistir[0].filmeId))
+            sugestoes = api.buscarFilmeSimilar(str(paraAssistir[-1].filmeId))
 
         return render_template("perfil.html",
                                buscaFilmeForm=buscaFilmeForm,
@@ -116,9 +114,19 @@ def listarFilmesParaAssistir(idConta, idPerfil):
     methods=["GET", "POST"])
 def adicionarParaAssistir(contaId, perfilId, filmeId, filmeNome, media,
                           nomePerfil):
-    filme = Filme(contaId, perfilId, filmeId, filmeNome, media)
-    db.session.add(filme)
-    db.session.commit()
+
+    listaParaAssistir = listarFilmesParaAssistir(contaId, perfilId)
+
+    lista = []
+    for i in range(len(listaParaAssistir)):
+        lista.append(listaParaAssistir[i].filmeId)
+
+    if filmeId not in lista:
+        filme = Filme(contaId, perfilId, filmeId, filmeNome, media)
+        db.session.add(filme)
+        db.session.commit()
+    else:
+        flash("Este filme já está na WatchList")
 
     return redirect(url_for('perfil', idPerfil=perfilId,
                             nomePerfil=nomePerfil))

@@ -32,16 +32,10 @@ def upgrade():
                     sa.Column('media', sa.Text(), nullable=True),
                     sa.PrimaryKeyConstraint('id'))
     op.create_table('perfis', sa.Column('id', sa.Integer(), nullable=False),
-                    sa.Column('conta', sa.Integer(), nullable=True),
+                    sa.Column('contaId', sa.Integer(), nullable=True),
                     sa.Column('nome', sa.String(), nullable=True),
                     sa.Column('filmes', sa.PickleType(), nullable=True),
-                    sa.ForeignKeyConstraint(
-                        ['conta'],
-                        ['conta.id'],
-                    ), sa.ForeignKeyConstraint(
-                        ['filmes'],
-                        ['filme.id'],
-                    ), sa.PrimaryKeyConstraint('id'))
+                    sa.PrimaryKeyConstraint('id'))
     # ### end Alembic commands ###
 
 
