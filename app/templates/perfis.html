@@ -43,7 +43,7 @@
         {% if todos %}
         <ol class="flashes">
             {% for perfil in todos %}
-            <a href="{{ url_for('perfil', nomePerfil = perfil.nome) }}">
+            <a href="{{ url_for('perfil', nomePerfil = perfil.nome, idPerfil = perfil.id) }}">
                 <li>{{ perfil.nome }}</li>
             </a>
             {% endfor %}

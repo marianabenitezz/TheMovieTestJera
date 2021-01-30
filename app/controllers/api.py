@@ -14,16 +14,6 @@ api_key = '?api_key=e11e8b1786788ea384c7accb4d9e5d92'
 # 'vote_average'
 
 
-def buscarRecomendacao(id):
-    reco = requests.get(https + 'movie/' + str(id) + '/recommendations' +
-                        api_key).json()['results']
-    recomendacoes = []
-    for i in range(len(reco)):
-        recomendacoes.append(reco[i])
-
-    return recomendacoes
-
-
 def buscarFilme(palavra):
     filmes = []
     if palavra == '':
@@ -37,6 +27,35 @@ def buscarFilme(palavra):
             filmes.append(req[i])
 
     return filmes
+
+
+def buscarFilmesMaisPopulares():
+    req = requests.get(https + 'movie/popular' + api_key).json()['results']
+
+    filmesMaisPopulares = []
+    for i in range(len(req)):
+        filmesMaisPopulares.append(req[i])
+
+    return filmesMaisPopulares
+
+
+def buscarRecomendacao(id):
+    req = requests.get(https + 'movie/' + str(id) + '/recommendations' +
+                       api_key).json()['results']
+    recomendacoes = []
+    for i in range(len(req)):
+        recomendacoes.append(req[i])
+
+    return recomendacoes
+
+
+def buscarFilmeSimilar(movie_id):
+    req = requests.get(https + 'movie/' + movie_id + '/similar' +
+                       api_key).json()['results']
+    similares = []
+    for i in range(len(req)):
+        similares.append(req[i])
+    return req
 
 
 def buscarImagem(path):

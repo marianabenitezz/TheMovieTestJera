@@ -5,6 +5,7 @@
 
 <head>
     <title>The Movies</title>
+
 </head>
 
 <body>
@@ -17,12 +18,12 @@
         <div style="width:50%">
             <h2>Perfil {{ nomePerfil }} </h2>
             <form action="" method="POST">
-                {{ buscaForm.csrf_token }}
+                {{ buscaFilmeForm.csrf_token }}
                 <div class="form-group">
-                    {{ buscaForm.filme( class="form-control") }}
-                    {% if buscaForm.errors.filme %}
+                    {{ buscaFilmeForm.filme( class="form-control") }}
+                    {% if buscaFilmeForm.errors.filme %}
                     <div class="alert alert-danger" role="alert">
-                        {{ buscaForm.errors.filme}}
+                        {{ buscaFilmeForm.errors.filme}}
                     </div>
                     {% endif %}
                     <input type="submit" value="Buscar filme">
@@ -31,18 +32,46 @@
 
             <h3>Resultados:</h3>
             {% if filmes %}
-            <ol class="flashes">
+            <ul class="flashes">
                 {% for filme in filmes %}
-                <li>{{ filme['original_title'] }}</li>
+                <li>
+                    <h4>{{ filme['original_title'] }}</h4>
+                    <p>{{ filme['overview'] }} [<a
+                            href="{{url_for('adicionarParaAssistir', contaId=current_user.id, perfilId=idPerfil, 
+                    filmeId=filme['id'], filmeNome=filme['original_title'], media=filme['vote_average'], nomePerfil=nomePerfil)}}"
+                            method="POST"> Adicionar</a>]</p>
+                </li>
                 {% endfor %}
-            </ol>
+            </ul>
             {% endif %}
         </div>
         <div style="width:50%">
             <h3>Filmes Sugeridos</h3>
+            {% if sugestoes %}
+            <ul class="flashes">
+                {% for sugestao in sugestoes %}
+                <li>
+                    <h4>{{ sugestao['original_title'] }}</h4>
+                    <p>{{ sugestao['overview'] }} [<a
+                            href="{{url_for('adicionarParaAssistir', contaId=current_user.id, perfilId=idPerfil, 
+                    filmeId=sugestao['id'], filmeNome=sugestao['original_title'], media=sugestao['vote_average'], nomePerfil=nomePerfil)}}"
+                            method="POST"> Adicionar</a>]</p>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
         <div style="width:50%">
             <h3>Watchlist</h3>
+            {% if paraAssistir %}
+            <ul class="flashes">
+                {% for f in paraAssistir %}
+                <li>
+                    <h4>{{ f['filmeNome'] }}</h4> Média de avaliação: {{ f['media'] }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
         </div>
         {% else %}
         <h2>Realize o login para acessar sua conta</h2>

@@ -56,14 +56,19 @@ class Filme(db.Model):
     __tablename__: "filmes"
     id = db.Column(db.Integer, primary_key=True)
     contaId = db.Column(db.Integer)
+    perfilId = db.Column(db.Integer)
     filmeId = db.Column(db.Integer)
-    assistido = db.Column(db.Boolean)
+    filmeNome = db.Column(db.String)
+    media = db.Column(db.String)
 
-    def __init__(self, contaId, filmeId):
+    def __init__(self, contaId, perfilId, filmeId, filmeNome, media):
         self.contaId = contaId
+        self.perfilId = perfilId
         self.filmeId = filmeId
-        self.assistido = False
+        self.filmeNome = filmeNome
+        self.media = media
 
     def __repr__(self):
-        return "<ContaID %r, FilmeID %r, Assistido: %r" % (
-            self.contaId, self.filmeId, self.assistido)
+        return "<ContaID: %r, PerfilID: %r, FilmeID: %r,  FilmeNome: %r, Media: %r>" % (
+            self.contaId, self.perfilId, self.filmeId, self.filmeNome,
+            self.media)

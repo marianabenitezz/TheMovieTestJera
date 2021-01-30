@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, current_user
 from app import app, db, login_manager
 
 from app.models.tables import Conta, Filme, Perfis
-from app.models.forms import LoginForm, CadastroForm, BuscaForm, PerfilForm
+from app.models.forms import LoginForm, CadastroForm, BuscaFilmeForm, PerfilForm, AssistirForm
 from app.controllers import api
 
 import sys
@@ -51,7 +51,7 @@ def perfis():
                 db.session.add(novoPerfil)
                 db.session.commit()
                 todos = listarPerfis(current_user.id)
-                print("SUCESSO!", novoPerfil.nome)
+
         else:
             print("Erro ao adicionar")
 
@@ -69,33 +69,59 @@ def listarPerfis(comparacao):
     return todos
 
 
-@app.route("/perfil/<string:nomePerfil>", methods=['GET', 'POST'])
-def perfil(nomePerfil):
+@app.route("/perfil/<string:idPerfil>/<string:nomePerfil>",
+           methods=['GET', 'POST'])
+def perfil(idPerfil, nomePerfil):
     if current_user.is_authenticated:
-        buscaForm = BuscaForm()
+        buscaFilmeForm = BuscaFilmeForm()
+        assistirForm = AssistirForm()
         filmes = []
-        if buscaForm.validate_on_submit():
-            filmes = api.buscarFilme(buscaForm.filme.data)
+        paraAssistir = listarFilmesParaAssistir(current_user.id, idPerfil)
+        sugestoes = api.buscarFilmesMaisPopulares()
+
+        if buscaFilmeForm.validate_on_submit():
+            filmes = api.buscarFilme(buscaFilmeForm.filme.data)
+
+        if paraAssistir != []:
+            for i in paraAssistir:
+                sugestoes = api.buscarFilmeSimilar(str(
+                    paraAssistir[0].filmeId))
 
         return render_template("perfil.html",
-                               buscaForm=buscaForm,
+                               buscaFilmeForm=buscaFilmeForm,
                                filmes=filmes,
-                               nomePerfil=nomePerfil)
+                               nomePerfil=nomePerfil,
+                               idUser=current_user.id,
+                               idPerfil=idPerfil,
+                               paraAssistir=paraAssistir,
+                               sugestoes=sugestoes)
     else:
         flash("Faça login para acessar seu perfil!")
         return redirect(url_for("logar"))
 
 
-# def adicionarParaAssistir(self):
-#     filme = Filme(self.contaId, self.filmeId)
-#     db.session.add(filme)
-#     db.commit()
-#     print("DEU CERTOOOOOOOOOO")
+def listarFilmesParaAssistir(idConta, idPerfil):
+    todos = []
+    filmesDoPerfil = db.session.query(Filme).filter_by(contaId=idConta,
+                                                       perfilId=idPerfil)
+    if filmesDoPerfil:
+        for instancia in filmesDoPerfil:
+            todos.append(instancia)
 
-# def marcarComoAssistido(contaId, filmeId):
-#     filme = Filme(self.contaId, self.filmeId)
-#     db.session.add(filme)
-#     db.commit()
+    return todos
+
+
+@app.route(
+    "/adicionarParaAssistir/<contaId>/<perfilId>/<filmeId>/<filmeNome>/<media>/<nomePerfil>",
+    methods=["GET", "POST"])
+def adicionarParaAssistir(contaId, perfilId, filmeId, filmeNome, media,
+                          nomePerfil):
+    filme = Filme(contaId, perfilId, filmeId, filmeNome, media)
+    db.session.add(filme)
+    db.session.commit()
+
+    return redirect(url_for('perfil', idPerfil=perfilId,
+                            nomePerfil=nomePerfil))
 
 
 @app.route("/logout")
@@ -114,13 +140,12 @@ def cadastrar():
         else:
             conta = Conta(form.nome.data, form.email.data, form.dataNasc.data,
                           form.senha.data)
-            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", form.dataNasc.data)
             db.session.add(conta)
             db.session.commit()
             flash("Cadastrado com sucesso!")
             return redirect(url_for("logar"))
     else:
-        print("Erro ao preencher dados")
+        print("Não preencheu os dados")
 
     return render_template("cadastro.html", form=form)
 
