@@ -1,12 +1,12 @@
 <!doctype html>
 <title>The Movies</title>
 
-<div style="float: right;max-width:300px">
+<div style="float: right;margin-right: 20px;max-width:300px">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul class=flashes>
         {% for message in messages %}
-        <li>{{ message }}</li>
+        <li style="color: red;">{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}

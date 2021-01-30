@@ -19,17 +19,17 @@
             {{ form.nome( class="form-control") }}
             {% if form.errors.nome %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.nome}}
+                {{ form.errors.nome}}
             </div>
             {% endif %}
         </div>
         <br>
         <div class="form-group">
-            <label for="dataNasc">Data de Nascimento:</label>
-            {{ form.dataNasc( class="form-control") }}
+            <label for="dataNasc">Data de Nascimento(dd-mm-aa):</label>
+            {{ form.dataNasc() }}
             {% if form.errors.dataNasc %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.dataNasc}}
+                {{ form.errors.dataNasc}}
             </div>
             {% endif %}
         </div>
@@ -39,7 +39,7 @@
             {{ form.email( class="form-control")}}
             {% if form.errors.email %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.email}}
+                {{ form.errors.email}}
             </div>
             {% endif %}
         </div>
@@ -49,7 +49,7 @@
             {{ form.senha( class="form-control")}}
             {% if form.errors.senha %}
             <div class="alert alert-danger" role="alert">
-                {{ forms.errors.senha}}
+                {{ form.errors.senha}}
             </div>
             {% endif %}
         </div>

@@ -69,25 +69,38 @@ def listarPerfis(comparacao):
     return todos
 
 
-@app.route("/perfil")
-def perfil():
+@app.route("/perfil/<string:nomePerfil>", methods=['GET', 'POST'])
+def perfil(nomePerfil):
     if current_user.is_authenticated:
-        form = BuscaForm()
+        buscaForm = BuscaForm()
         filmes = []
-        if form.validate_on_submit():
-            filmes = api.buscarFilme(form.filme.data)
-        else:
-            print("Erro ao buscar")
-        return render_template("perfil.html", form=form, filmes=filmes)
+        if buscaForm.validate_on_submit():
+            filmes = api.buscarFilme(buscaForm.filme.data)
+
+        return render_template("perfil.html",
+                               buscaForm=buscaForm,
+                               filmes=filmes,
+                               nomePerfil=nomePerfil)
     else:
         flash("Faça login para acessar seu perfil!")
         return redirect(url_for("logar"))
 
 
+# def adicionarParaAssistir(self):
+#     filme = Filme(self.contaId, self.filmeId)
+#     db.session.add(filme)
+#     db.commit()
+#     print("DEU CERTOOOOOOOOOO")
+
+# def marcarComoAssistido(contaId, filmeId):
+#     filme = Filme(self.contaId, self.filmeId)
+#     db.session.add(filme)
+#     db.commit()
+
+
 @app.route("/logout")
 def deslogar():
     logout_user()
-    flash("Deslogado")
     return redirect(url_for("index"))
 
 
@@ -101,12 +114,12 @@ def cadastrar():
         else:
             conta = Conta(form.nome.data, form.email.data, form.dataNasc.data,
                           form.senha.data)
+            print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", form.dataNasc.data)
             db.session.add(conta)
             db.session.commit()
             flash("Cadastrado com sucesso!")
             return redirect(url_for("logar"))
     else:
-        flash("Dados inválidos!")
         print("Erro ao preencher dados")
 
     return render_template("cadastro.html", form=form)

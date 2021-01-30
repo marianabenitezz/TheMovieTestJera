@@ -9,39 +9,46 @@
 
 <body>
     <h1>The Movies</h1>
+    {% if current_user.is_authenticated %}
     <div>
-        {% if current_user.is_autheticated %}
-        <h2>{{ current_user.nome}}</h2>
-        <a href="{{ url_for('deslogar')}}">Logout</a>
+        <pre><a href="{{ url_for('perfis')}}">Voltar</a>  <a href="{{ url_for('deslogar')}}">Logout</a></pre>
+    </div>
+    <div style="display:flex; justify-content: space-between;margin:auto;">
+        <div style="width:50%">
+            <h2>Perfil {{ nomePerfil }} </h2>
+            <form action="" method="POST">
+                {{ buscaForm.csrf_token }}
+                <div class="form-group">
+                    {{ buscaForm.filme( class="form-control") }}
+                    {% if buscaForm.errors.filme %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ buscaForm.errors.filme}}
+                    </div>
+                    {% endif %}
+                    <input type="submit" value="Buscar filme">
+                </div>
+            </form>
 
-        <form class="example" action="">
-            <input type="text" placeholder="Buscar filme" name="search2">
-            <button type="submit">Buscar</button>
-        </form>
-
+            <h3>Resultados:</h3>
+            {% if filmes %}
+            <ol class="flashes">
+                {% for filme in filmes %}
+                <li>{{ filme['original_title'] }}</li>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
+        <div style="width:50%">
+            <h3>Filmes Sugeridos</h3>
+        </div>
+        <div style="width:50%">
+            <h3>Watchlist</h3>
+        </div>
         {% else %}
+        <h2>Realize o login para acessar sua conta</h2>
         <a href="{{ url_for('logar')}}">Login</a>
         {% endif %}
 
-        <form action="" method="POST">
-            {{ form.csrf_token }}
-            <div class="form-group">
-                {{ form.filme( class="form-control") }}
-                {% if form.errors.filme %}
-                <div class="alert alert-danger" role="alert">
-                    {{ form.errors.filme}}
-                </div>
-                {% endif %}
-                <input type="submit" value="Buscar">
-            </div>
-        </form>
-        {% if filmes %}
-        <ul class="flashes">
-            {% for filme in filmes %}
-            <li>{{ filme['original_title'] }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
     </div>
 </body>
 

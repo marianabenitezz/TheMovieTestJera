@@ -1,5 +1,5 @@
 from app import db, login_manager
-from datetime import datetime
+import datetime
 
 
 class Conta(db.Model):  #conta de usuários
@@ -35,29 +35,12 @@ class Conta(db.Model):  #conta de usuários
         return "<Usuario: %r , email: %r>" % (self.nome, self.email)
 
 
-class Filme(db.Model):
-    __tablename__: "filmes"
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String)
-    genero = db.Column(db.String)
-    descricao = db.Column(db.Text)
-
-    def __init__(self, id, nome, genero, descricao):
-        self.nome = nome
-        self.genero = genero
-        self.descricao = descricao
-
-    def __repr__(self):
-        return "<Filme %r>" % self.nome
-
-
 class Perfis(db.Model):
     __tablename__: "perfis"
     id = db.Column(db.Integer, primary_key=True)
     contaId = db.Column(db.Integer)
     nome = db.Column(db.String)
-    filmes = db.Column(
-        db.PickleType)  #filmes representam os filmes para assistir
+    filmes = db.Column(db.PickleType)  #representam os filmes para assistir
 
     def __init__(self, contaId, nome, filmes):
         self.contaId = contaId
@@ -67,3 +50,20 @@ class Perfis(db.Model):
     def __repr__(self):
         return "<ContaID %r, Nome %r, Filmes %r>" % (self.contaId, self.nome,
                                                      self.filmes)
+
+
+class Filme(db.Model):
+    __tablename__: "filmes"
+    id = db.Column(db.Integer, primary_key=True)
+    contaId = db.Column(db.Integer)
+    filmeId = db.Column(db.Integer)
+    assistido = db.Column(db.Boolean)
+
+    def __init__(self, contaId, filmeId):
+        self.contaId = contaId
+        self.filmeId = filmeId
+        self.assistido = False
+
+    def __repr__(self):
+        return "<ContaID %r, FilmeID %r, Assistido: %r" % (
+            self.contaId, self.filmeId, self.assistido)
