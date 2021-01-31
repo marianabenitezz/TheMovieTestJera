@@ -28,7 +28,7 @@ def logar():
         if conta and conta.senha == form.senha.data:
             login_user(conta)
             return redirect(url_for("perfis"))
-            flash("Logado")
+
         else:
             flash("Login inválido. Cadastre-se ou tente novamente!")
 
@@ -78,12 +78,15 @@ def perfil(idPerfil, nomePerfil):
         filmes = []
         paraAssistir = listarFilmesParaAssistir(current_user.id, idPerfil)
         sugestoes = api.buscarFilmesMaisPopulares()
+        aux = sugestoes
 
         if buscaFilmeForm.validate_on_submit():
             filmes = api.buscarFilme(buscaFilmeForm.filme.data)
 
         if paraAssistir != []:
             sugestoes = api.buscarFilmeSimilar(str(paraAssistir[-1].filmeId))
+            if len(sugestoes) == 0:
+                sugestoes = aux
 
         return render_template("perfil.html",
                                buscaFilmeForm=buscaFilmeForm,

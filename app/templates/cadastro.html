@@ -54,6 +54,16 @@
             {% endif %}
         </div>
         <br>
+        <div class="form-group">
+            <label for="senha">Repetir senha:</label>
+            {{ form.confirmacao( class="form-control")}}
+            {% if form.errors.senha %}
+            <div class="alert alert-danger" role="alert">
+                {{ form.errors.senha}}
+            </div>
+            {% endif %}
+        </div>
+        <br>
         <input type="submit" value="Cadastrar">
     </form>
 
