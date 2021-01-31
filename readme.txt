@@ -2,6 +2,9 @@
 
 1) Atualizar ou Instalar o Python 3.9.1
 2) Instalar o pip  
+	obs* Se precisar atualizar o pip:
+		- achar o caminho do 'python.exe' 
+		$ python.exe -m pip install --upgrade pip
 
 3) Criar o ambiente virtual:
 	$ pip install virtualenv (caso o pip não funcione, tente instalar o pip3)
@@ -30,4 +33,5 @@
 8) Executando a aplicação:
 	$ python run.py runserver
 
-9) Abrir no navegador 'localhost:{número da porta}/'
+9) Abrir no navegador:
+	localhost:'numero da porta'/
