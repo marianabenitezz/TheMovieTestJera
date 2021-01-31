@@ -1,1 +1,1 @@
-"web: gunicorn run:run.py runserver"
+"web: run.py runserver"
