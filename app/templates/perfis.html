@@ -25,7 +25,7 @@
             </ul>
         </div>
         <div>
-            <h3>Perfis:</h3>
+            <label>Dê um nome ao novo perfil</label>
             <form action="" method="POST">
                 {{ form.csrf_token }}
                 <div class="form-group">
@@ -39,16 +39,19 @@
             <pre><code id="python_code">form.idUsuario = current_user.id</code></pre>
         </div>
         {% endif %}
-        <input type="submit" value="Criar">
-        {% if todos %}
-        <ol class="flashes">
-            {% for perfil in todos %}
-            <a href="{{ url_for('perfil', nomePerfil = perfil.nome, idPerfil = perfil.id) }}">
-                <li>{{ perfil.nome }}</li>
-            </a>
-            {% endfor %}
-        </ol>
-        {% endif %}
+        <input type="submit" value="Criar Perfil">
+        <div>
+            <h3>Meus perfis:</h3>
+            {% if todos %}
+            <ol class="flashes">
+                {% for perfil in todos %}
+                <a href="{{ url_for('perfil', nomePerfil = perfil.nome, idPerfil = perfil.id) }}">
+                    <li>{{ perfil.nome }}</li>
+                </a>
+                {% endfor %}
+            </ol>
+            {% endif %}
+        </div>
 
         {% else %}
         <h2>Realize o login para acessar sua conta</h2>

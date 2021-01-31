@@ -1,7 +1,7 @@
 <!doctype html>
 <title>The Movies</title>
 
-<div style="float: right;margin-right: 20px;max-width:300px">
+<div style="margin: auto; font-size: 18px; max-width:300px">
     {% with messages = get_flashed_messages() %}
     {% if messages %}
     <ul class=flashes>
@@ -12,5 +12,6 @@
     {% endif %}
     {% endwith %}
 </div>
+
 {% block body %}
 {% endblock %}

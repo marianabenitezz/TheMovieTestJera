@@ -28,7 +28,7 @@ def logar():
         if conta and conta.senha == form.senha.data:
             login_user(conta)
             return redirect(url_for("perfis"))
-            flash("Logado")
+
         else:
             flash("Login inválido. Cadastre-se ou tente novamente!")
 
