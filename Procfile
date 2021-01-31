@@ -1,1 +1,1 @@
-web: gunicorn run:app
+web: gunicorn run:ryn.py runserver
