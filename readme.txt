@@ -1,27 +1,33 @@
-**No CMD do Windows**
+*No terminal do seu computador*
 
-1) Instalar o Python
-2) Instalar o pip
+1) Atualizar ou Instalar o Python 3.9.1
+2) Instalar o pip  
 
 3) Criar o ambiente virtual:
-	$ pip install virtualenv
+	$ pip install virtualenv (caso o pip não funcione, tente instalar o pip3)
 	$ virtualenv venv
 	
-    3.1) Achar o arquivo 'activate' (/TheMovieTestJera/venv/scripts/)
-		$ cd venv/scripts/  
+4) Achar o arquivo 'activate' 
+	4.1- Se estiver no Windows: 
+		$ cd /venv/scripts/
 		$ activate
 
-4) Voltar para a pasta do projeto (/TheMovieTestJera/)
+	4.2- Se estiver no Linux:
+		$ source /venv/bin/activate
+
+5) Voltar para a pasta do projeto (/TheMovieTestJera/)
 		$ cd..
 		$ cd..
 
-5) Instalando as dependências:
+6) Instalando as dependências:
 	$ pip install -r requirements.txt 
 
-6) Gerando o Banco de dados:
+7) Gerando o Banco de dados:
 	$ python run.py db init
 	$ python run.py db migrate
 	$ python run.py db upgrade
 
-7) Executando a aplicação:
+8) Executando a aplicação:
 	$ python run.py runserver
+
+9) Abrir no navegador 'localhost:{número da porta}/'
